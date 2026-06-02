@@ -256,7 +256,7 @@ body::before {
    HERO — tighter, no empty space
    ================================================================ */
 .hero {
-    min-height: 100vh;
+    min-height: min(100vh, 850px);
     padding: 110px max(24px,6%) 32px;
     position: relative; display: flex; flex-direction: column;
     justify-content: center; /* vertically center the content */
