@@ -81,25 +81,35 @@ window.addEventListener('load', () => {
         setTimeout(() => requestAnimationFrame(tick), 600);
     });
 
-    // ---- Word cycling: ENGINEER → DEVELOPER → RESEARCHER → BUILDER ----
+    // ---- Word cycling: ENGINEER → DEVELOPER ----
     const container = document.getElementById('word-cycle');
     if (container) {
         const words = container.querySelectorAll('.word-slide');
+        let current = 0;
 
-        // Fix the container width to the widest word so layout never shifts
-        let maxW = 0;
-        words.forEach(w => {
-            w.style.position = 'relative';
-            maxW = Math.max(maxW, w.offsetWidth);
-            w.style.position = 'absolute';
-        });
-        container.style.width = maxW + 'px';
+        const updateWidths = () => {
+            let maxW = 0;
+            words.forEach(w => {
+                const origStyle = w.style.cssText;
+                w.style.cssText = 'position:relative;display:inline-block;visibility:hidden;';
+                maxW = Math.max(maxW, w.offsetWidth);
+                w.style.cssText = origStyle;
+            });
+            container.style.width = (maxW + 2) + 'px';
+        };
 
-        // Show first word immediately as relative
+        // Run immediately
+        updateWidths();
+
+        // Run when fonts are fully ready to prevent font-swap layout jumps
+        if (document.fonts) {
+            document.fonts.ready.then(updateWidths);
+        }
+
+        // Show first word immediately
         words[0].classList.add('active');
         words[0].style.position = 'relative';
 
-        let current = 0;
         setInterval(() => {
             const prev = current;
             current = (current + 1) % words.length;
@@ -108,11 +118,10 @@ window.addEventListener('load', () => {
             words[prev].classList.remove('active');
             words[prev].classList.add('exit');
             words[prev].style.position = 'absolute';
-            setTimeout(() => words[prev].classList.remove('exit'), 600);
+            setTimeout(() => words[prev].classList.remove('exit'), 350);
 
             // Enter the next one
             words[current].style.position = 'relative';
-            // Briefly set at start position before transition
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     words[current].classList.add('active');

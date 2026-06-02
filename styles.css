@@ -123,9 +123,8 @@ body::before {
    ENTRANCE ANIMATIONS
    ================================================================ */
 @keyframes stackUp {
-    0%   { opacity: 0; transform: translateY(52px) scale(0.96); filter: blur(2px); }
-    60%  { filter: blur(0); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    0%   { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeIn {
     from { opacity: 0; } to { opacity: 1; }
@@ -137,7 +136,7 @@ body::before {
 
 .stack-up {
     opacity: 0;
-    animation: stackUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: stackUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay: var(--stack-delay, 0s);
 }
 .reveal.stack-up { animation-play-state: paused; }
@@ -332,13 +331,11 @@ body::before {
     position: absolute;
     top: 0; left: 0;
     white-space: nowrap;
-    /* Hidden by default */
     opacity: 0;
-    transform: translateY(100%) skewY(4deg);
-    transition:
-        opacity 0.55s cubic-bezier(0.22,1,0.36,1),
-        transform 0.55s cubic-bezier(0.22,1,0.36,1);
-    /* Each word gets its own colour to add life */
+    transform: translateY(30%);
+    transition: 
+        opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     color: var(--text);
 }
 /* Both cycling words are orange — higher specificity wins */
@@ -349,12 +346,12 @@ body::before {
 }
 .word-slide.active {
     opacity: 1;
-    transform: translateY(0) skewY(0deg);
+    transform: translateY(0);
     position: relative; /* takes space when active */
 }
 .word-slide.exit {
     opacity: 0;
-    transform: translateY(-80%) skewY(-4deg);
+    transform: translateY(-30%);
     position: absolute; /* doesn't push layout when leaving */
 }
 
